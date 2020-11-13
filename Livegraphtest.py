@@ -17,7 +17,7 @@ def start_cc_cv_app():
         arrary_I2_time=[]
         arrary_V0=[]
         arrary_V0_time=[]
-        data = pd.read_table('teraterm.log',sep=' ',names=['0','1','2'])
+        data = pd.read_table('Livegraphtest/teraterm.log',sep=' ',names=['0','1','2'])
         for index in range(len(data['2'])):
             if (data['2'][index][4]+data['2'][index][5]) == 'I0':
                 arrary_times = []

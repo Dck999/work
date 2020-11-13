@@ -210,10 +210,14 @@ def phase_noise_single_plot(filename,colors):
     for  db in df['1']:
         arrary2.append(round(float(db),3))
     plt.semilogx(arrary1,arrary2,lw=2,label=filename,color = colors)
-    plt.legend(loc=2, bbox_to_anchor=(1.01,0.7),borderaxespad = 0.)
-    plt.ylim(-160, -50)
+    plt.legend(loc=5)
+    plt.ylim(-160, -40)
+   
+    my_y_ticks = np.arange(-160, -40, 5) 
+    
+    plt.yticks(my_y_ticks)
     plt.xlabel("log(x)")
-    plt.ylabel("y")
+    plt.ylabel("DB")
     plt.grid(b=True, which='major', color='#666666', linestyle='-.')
     plt.title("phase_noise",fontsize=20)
     plt.show()

@@ -2,13 +2,15 @@ import tkinter as tk
 from tkinter.ttk import *
 #from tkinter import ttk
 from TCXO import temp_ppm_single, temp_ppm_All, temp_slope_single, temp_slope_all, temp_slope_single_each_temp_record, temp_slope_All_each_temp_record, phase_noise_single_plot, phase_noise_all_plot, start_up_frequency,freq_deviation_form20second
+from Baro import baro_data_plot_single
+
 from Livegraphtest import *
 from test_find_path import *
 
 
 LARGE_FONT= ("Verdana", 12)
 
-class SeaofBTCapp(tk.Tk):
+class Tools(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         
@@ -22,7 +24,7 @@ class SeaofBTCapp(tk.Tk):
 
         self.frames = {}
         
-        for F in (StartPage, PageOne, PageTwo):
+        for F in (StartPage, PageOne, PageTwo,PageThree,PageFour):
             frame = F(container, self)
             self.frames[F] = frame
             frame.grid(row=0,column=0,sticky='news')
@@ -54,6 +56,12 @@ class StartPage(tk.Frame):
         
         button2 = tk.Button(self, text="CC/CV Log", command=lambda: controller.show_frame(PageTwo))
         button2.pack()
+        
+        button3 = tk.Button(self, text="Baro log", command=lambda: controller.show_frame(PageThree))
+        button3.pack()
+        
+        button3 = tk.Button(self, text="CN log", command=lambda: controller.show_frame(PageFour))
+        button3.pack()
 
 class PageOne(tk.Frame):
     def __init__(self, parent, controller):
@@ -159,14 +167,7 @@ class PageOne(tk.Frame):
         
         button = tk.Button(self, text="Back to Home",command = lambda:controller.show_frame(StartPage))
         button.pack()
-        
-        
-        
-    
-        
-        
-        
-        
+
 
 class PageTwo(tk.Frame):
     def __init__(self,parent,controller):
@@ -187,11 +188,51 @@ class PageTwo(tk.Frame):
         button = tk.Button(self, text="Back to Home",command = lambda:controller.show_frame(StartPage))
         button.pack()
         
+class PageThree(tk.Frame):
+    def __init__(self,parent,controller):
+        self.test = 2
+        tk.Frame.__init__(self,parent)
+        
+        def clicked_show_file():
+            combo['values']= showfile(os.path.join(dirPath,"baro_function\\rawdata"))
+        
+        def clicked_plot_single_baro_log():
+            baro_data_plot_single(combo.get(),combo2.get())
         
         
+        label_1 = tk.Label(self,text="Choose file", font = LARGE_FONT)
+        label_1.pack()
         
+        combo = Combobox(self)
+        combo.pack()
+        
+        btn_show_file1 = Button(self,text="Scan(file)", command=clicked_show_file )
+        btn_show_file1.pack()
+        
+        label_2 = tk.Label(self,text="if plot single, plz choose file color.", font = LARGE_FONT)
+        label_2.pack()
+        
+        combo2 = Combobox(self)
+        combo2.pack()
+        combo2['values'] = ['black','red','darkorange','gold','forestgreen','teal','blue','magenta']
+        color_arrary=['black','red','darkorange','gold','forestgreen','teal','blue','magenta']
+        
+        
+        button_plot_single = tk.Button(self, text="plot single baro log",command = clicked_plot_single_baro_log)
+        button_plot_single.pack()
+        
+        
+        button = tk.Button(self, text="Back to Home",command = lambda:controller.show_frame(StartPage))
+        button.pack()
 
-app = SeaofBTCapp()
+class PageFour(tk.Frame):
+    def __init__(self,parent,controller):
+        self.test = 2
+        tk.Frame.__init__(self,parent)
+        
+        button = tk.Button(self, text="Back to Home",command = lambda:controller.show_frame(StartPage))
+        button.pack()
+app = Tools()
 app.title("AE Tools")
 app.geometry('350x500')
 
